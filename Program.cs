@@ -72,77 +72,82 @@ class Program
     static void Main()
     {
         // Print Queue
-        Queue<string> printQueue = new Queue<string>();
+        Queue<Document> printQueue = new Queue<Document>();
 
-        // Add documents to print queue
-        printQueue.Enqueue("Document1");
-        printQueue.Enqueue("Document2");
-        printQueue.Enqueue("Document3");
 
-        Console.WriteLine("Print Queue:");
-        while (printQueue.Count > 0)
+        //list of all printers
+        List<Printer> printers = new List<Printer>
         {
-            Console.WriteLine($"Printing: {printQueue.Dequeue()}");
-        }
-
-        // Browser History
-        Stack<string> browserHistory = new Stack<string>();
-
-        // Visit pages
-        browserHistory.Push("Page1");
-        browserHistory.Push("Page2");
-        browserHistory.Push("Page3");
-
-        Console.WriteLine("\nBrowser History:");
-        while (browserHistory.Count > 0)
-        {
-            Console.WriteLine($"Going back to: {browserHistory.Pop()}");
-        }
+            new Printer("Printer 1"),
+            new Printer("Printer 2"),
+            new Printer("Printer 3")
+        };
 
 
-
+        //default
+        Printer selectedPrinter = printers[0];
         string userInput = "";
+        Console.WriteLine("Welcome to the Printer!");
 
-        /*other things to think of 
-        - color
-        - black and white
-        - how many pages to print
-        - single or double sided
-        - change queue order
-        - printer change
-        - printer list with a printer object / class
-        - queue manipulation (previous / next)
-        */
 
+
+        //main loop
         while(userInput != "q")
         {
+            //options
             Console.WriteLine("What do you want to do");
-            Console.WriteLine("Options: \n 'a' to add a document to the queue. \n 'p' to print all documents. \n ");
+            Console.WriteLine("Options: ");
+            Console.WriteLine("'a' - Add Document to the queue");
+            Console.WriteLine("'p' - Print all Docs");
+            Console.WriteLine("'v' - View Print Queue");
+            Console.WriteLine("'c' - Change Printer");
+            Console.WriteLine("'r' - Reorder Queue");
+            Console.WriteLine("'q' - Quit");
             userInput = Console.ReadLine();
 
-            if (userInput == "q")
+            //use switch cases instead of loops just for an easier time
+            switch (userInput)
             {
-                Console.WriteLine("Thanks for using");
-            }
-            else if (userInput == "a")
-            {
-                Console.WriteLine("Which document do you want to add to the print queue");
-                string docName = Console.ReadLine();
-            }
-            else if (userInput == "p")
-            {
-                Console.WriteLine($"Printing: {printQueue.Dequeue()}");
+                case "a":
 
-                //print x
-                while (printQueue.Count > 0)
-                {
-                    Console.WriteLine($"Printing: {printQueue.Dequeue()}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Please enter a valid input!");
-            }
+                    //quetions
+                    Console.Write("Enter Document Name: ");
+                    string name = Console.ReadLine();
+
+                    Console.Write("Color? (yes/no): ");
+                    bool isColor = Console.ReadLine().ToLower() == "yes";
+
+                    Console.Write("How Many pages?: ");
+                    int pageCount = int.Parse(Console.ReadLine());
+
+                    Console.Write("Double Sided? (yes/no): ");
+                    bool isDoubleSided = Console.ReadLine().ToLower() == "yes";
+
+                    //new document and queue
+                    printQueue.Enqueue(new Document(name, isColor, pageCount, isDoubleSided));
+                    Console.WriteLine("Document added Sucessfully!");
+                    break;
+
+
+                case "p":
+                    //print all documents
+                    if(printQueue.Count == 0)
+                    {
+                        Console.WriteLine("The Queue is empty");
+                    }
+                    else
+                    {
+                        //dequeue and print all
+                        Console.WriteLine($"Printing on {selectedPrinter.Name}");
+                        while(printQueue.Count > 0)
+                        {
+                            Console.WriteLine($"Printing: {printQueue.Dequeue()}");
+                        }
+                    }
+                    break;
+
+
+
         }
     }
 }
