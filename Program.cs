@@ -2,6 +2,39 @@
 using System.Collections.Generic;
 using System.Net.Quic;
 
+
+//class to represent doc to print
+class Document
+{
+    //doc name
+    public string Name { get; set; }
+    //true if doc is in color
+    public bool IsColor { get; set; }
+    //num of pages
+    public int PageCount { get; set; }
+    //double sided?
+    public bool IsDoubleSided { get; set; }
+
+    //constructor for properties above
+    public Document(string name, bool isColor, int pageCount, bool isDoubleSided)
+    {
+        Name = name;
+        IsColor = isColor;
+        PageCount = pageCount;
+        IsDoubleSided = isDoubleSided;
+    }
+
+    //override toString for the print 
+    public override string ToString()
+    {
+        string colorMode = IsColor ? "Color" : "Black & White";
+        string sides = IsDoubleSided ? "Double-Sided" : "Single-Sided";
+        return $"{Name} ({colorMode}, {PageCount} pages, {sides})";
+    }
+}
+
+
+
 class Program
 {
     static void Main()
@@ -39,8 +72,6 @@ class Program
         string userInput = "";
 
         /*other things to think of 
-        - print
-        - print suboptions
         - color
         - black and white
         - how many pages to print
@@ -49,12 +80,6 @@ class Program
         - printer change
         - printer list with a printer object / class
         - queue manipulation (previous / next)
-        - preview doc
-        - number of physical pages available
-        - amount of ink
-        - cancel print
-        - let user know about things (success / errors)
-        - input detection and error handling
         */
 
         while(userInput != "q")
