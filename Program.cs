@@ -35,6 +35,38 @@ class Document
 
 
 
+//add printer class 
+class Printer
+{
+    //printer name
+    public string Name { get; set; }
+
+
+    //constructor for printer name
+    public Printer(string name)
+    {
+        Name = name;
+    }
+
+    //override toString function for printer identity
+    public override string ToString() => Name;
+}
+
+
+
+
+//update program class to include everything and do these things;
+/*
+        -color
+        - black and white
+        - how many pages to print
+        - single or double sided
+        - change queue order
+        - printer change
+        - printer list with a printer object / class
+        -queue manipulation(previous / next)
+*/
+
 class Program
 {
     static void Main()
