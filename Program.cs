@@ -92,7 +92,7 @@ class Program
 
 
         //main loop
-        while(userInput != "q")
+        while (userInput != "q")
         {
             //options
             Console.WriteLine("What do you want to do");
@@ -131,7 +131,7 @@ class Program
 
                 case "p":
                     //print all documents
-                    if(printQueue.Count == 0)
+                    if (printQueue.Count == 0)
                     {
                         Console.WriteLine("The Queue is empty");
                     }
@@ -139,7 +139,7 @@ class Program
                     {
                         //dequeue and print all
                         Console.WriteLine($"Printing on {selectedPrinter.Name}");
-                        while(printQueue.Count > 0)
+                        while (printQueue.Count > 0)
                         {
                             Console.WriteLine($"Printing: {printQueue.Dequeue()}");
                         }
@@ -148,14 +148,14 @@ class Program
 
                 case "v":
                     //view queue docs
-                    if(printQueue.Count == 0)
+                    if (printQueue.Count == 0)
                     {
                         Console.WriteLine("The Queue is Empty");
                     }
                     else
                     {
                         Console.WriteLine("Print Queue: ");
-                        foreach(var doc in printQueue)
+                        foreach (var doc in printQueue)
                         {
                             Console.WriteLine(doc);
                         }
@@ -166,14 +166,14 @@ class Program
                 case "c":
                     //printer change
                     Console.WriteLine("Available Printers: ");
-                    for(int i = 0; i < printers.Count; i++)
+                    for (int i = 0; i < printers.Count; i++)
                     {
                         Console.WriteLine($"{i + 1}. {printers[i]}");
                     }
 
                     Console.Write("Select a new printer by Number: ");
                     int printerIndex = int.Parse(Console.ReadLine()) - 1;
-                    if(printerIndex >= 0 && printerIndex < printers.Count)
+                    if (printerIndex >= 0 && printerIndex < printers.Count)
                     {
                         selectedPrinter = printers[printerIndex];
                         Console.WriteLine($"Printer changed!, New Printer is {selectedPrinter.Name}");
@@ -186,12 +186,12 @@ class Program
 
                 case "r":
                     //reorder queue
-                    if(printQueue.Count > 1)
+                    if (printQueue.Count > 1)
                     {
                         Console.WriteLine("Current Queue:");
                         var docs = new List<Document>(printQueue);
                         //store docs in a list for reordering
-                        for(int i = 0;i < docs.Count;i++)
+                        for (int i = 0; i < docs.Count; i++)
                         {
                             Console.WriteLine($"{i + 1}. {docs[i]}");
                         }
@@ -204,15 +204,15 @@ class Program
                         int toIndex = int.Parse(Console.ReadLine()) - 1;
 
                         //validate list order
-                        if(fromIndex >= 0 && fromIndex < docs.Count && toIndex >= 0 && toIndex < docs.Count)
+                        if (fromIndex >= 0 && fromIndex < docs.Count && toIndex >= 0 && toIndex < docs.Count)
                         {
                             var doc = docs[fromIndex];
                             docs.RemoveAt(fromIndex);
-                            docs.Insert( toIndex, doc );
+                            docs.Insert(toIndex, doc);
 
                             //clear and fill the queue with new doc ofder
                             printQueue.Clear();
-                            foreach(var d in docs)
+                            foreach (var d in docs)
                             {
                                 printQueue.Enqueue(d);
                             }
@@ -244,5 +244,6 @@ class Program
 
 
             }
+        }
     }
 }
