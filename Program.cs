@@ -146,8 +146,103 @@ class Program
                     }
                     break;
 
+                case "v":
+                    //view queue docs
+                    if(printQueue.Count == 0)
+                    {
+                        Console.WriteLine("The Queue is Empty");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Print Queue: ");
+                        foreach(var doc in printQueue)
+                        {
+                            Console.WriteLine(doc);
+                        }
+                    }
+                    break;
 
 
-        }
+                case "c":
+                    //printer change
+                    Console.WriteLine("Available Printers: ");
+                    for(int i = 0; i < printers.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {printers[i]}");
+                    }
+
+                    Console.Write("Select a new printer by Number: ");
+                    int printerIndex = int.Parse(Console.ReadLine()) - 1;
+                    if(printerIndex >= 0 && printerIndex < printers.Count)
+                    {
+                        selectedPrinter = printers[printerIndex];
+                        Console.WriteLine($"Printer changed!, New Printer is {selectedPrinter.Name}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid Printer Selection...");
+                    }
+                    break;
+
+                case "r":
+                    //reorder queue
+                    if(printQueue.Count > 1)
+                    {
+                        Console.WriteLine("Current Queue:");
+                        var docs = new List<Document>(printQueue);
+                        //store docs in a list for reordering
+                        for(int i = 0;i < docs.Count;i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {docs[i]}");
+                        }
+
+
+                        Console.Write("Enter The Position of the Doc to move: ");
+                        int fromIndex = int.Parse(Console.ReadLine()) - 1;
+
+                        Console.Write("Enter New Position: ");
+                        int toIndex = int.Parse(Console.ReadLine()) - 1;
+
+                        //validate list order
+                        if(fromIndex >= 0 && fromIndex < docs.Count && toIndex >= 0 && toIndex < docs.Count)
+                        {
+                            var doc = docs[fromIndex];
+                            docs.RemoveAt(fromIndex);
+                            docs.Insert( toIndex, doc );
+
+                            //clear and fill the queue with new doc ofder
+                            printQueue.Clear();
+                            foreach(var d in docs)
+                            {
+                                printQueue.Enqueue(d);
+                            }
+                            Console.WriteLine("Queue updated!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid Positions Entered...");
+
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not Enough Documents to Reorder...");
+                    }
+                    break;
+
+                case "q":
+                    //quit
+                    Console.WriteLine("Thank you for using the Print Manager!!!!");
+                    break;
+
+
+                default:
+                    //handle invalid inputs
+                    Console.WriteLine("Invalid Input...Try Again...");
+                    break;
+
+
+            }
     }
 }
