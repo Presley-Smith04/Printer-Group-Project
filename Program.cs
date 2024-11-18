@@ -110,15 +110,23 @@ class Program
             {
                 case "a":
 
-                    //quetions
+                    //questions
                     Console.Write("Enter Document Name: ");
                     string name = Console.ReadLine();
 
                     Console.Write("Color? (yes/no): ");
                     bool isColor = Console.ReadLine().ToLower() == "yes";
 
-                    Console.Write("How Many pages?: ");
-                    int pageCount = int.Parse(Console.ReadLine());
+                    //ask for page count and check if it's valid so program doesn't break
+                    int pageCount = 0;
+                    bool validPageCount = false;
+                    while (!validPageCount)
+                    {
+                        Console.Write("How many pages?: ");
+                        validPageCount = int.TryParse(Console.ReadLine(), out pageCount);//make sure it's an integer
+                        if (!validPageCount)
+                            Console.WriteLine("Invalid input. Please enter a valid number for page count.");
+                    }
 
                     Console.Write("Double Sided? (yes/no): ");
                     bool isDoubleSided = Console.ReadLine().ToLower() == "yes";
