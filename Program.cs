@@ -180,10 +180,12 @@ class Program
                     }
 
                     Console.Write("Select a new printer by Number: ");
-                    int printerIndex = int.Parse(Console.ReadLine()) - 1;
-                    if (printerIndex >= 0 && printerIndex < printers.Count)
+                    string printerInput = Console.ReadLine();
+                    int printerIndex = -1;
+                    
+                    if (int.TryParse(printerInput, out printerIndex) && printerIndex >= 1 && printerIndex <= printers.Count)//check if the given index is a valid int
                     {
-                        selectedPrinter = printers[printerIndex];
+                        selectedPrinter = printers[printerIndex-1];//for 1-based index
                         Console.WriteLine($"Printer changed!, New Printer is {selectedPrinter.Name}");
                     }
                     else
