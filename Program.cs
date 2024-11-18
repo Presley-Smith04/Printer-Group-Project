@@ -182,7 +182,7 @@ class Program
                     Console.Write("Select a new printer by Number: ");
                     string printerInput = Console.ReadLine();
                     int printerIndex = -1;
-                    
+
                     if (int.TryParse(printerInput, out printerIndex) && printerIndex >= 1 && printerIndex <= printers.Count)//check if the given index is a valid int
                     {
                         selectedPrinter = printers[printerIndex-1];//for 1-based index
@@ -198,33 +198,42 @@ class Program
                     //reorder queue
                     if (printQueue.Count > 1)
                     {
+                        List<Document> docs = new List<Document>(printQueue);
                         Console.WriteLine("Current Queue:");
-                        var docs = new List<Document>(printQueue);
-                        //store docs in a list for reordering
                         for (int i = 0; i < docs.Count; i++)
                         {
                             Console.WriteLine($"{i + 1}. {docs[i]}");
                         }
 
-
                         Console.Write("Enter The Position of the Doc to move: ");
-                        int fromIndex = int.Parse(Console.ReadLine()) - 1;
+                        string fromInput = Console.ReadLine();
+                        int fromIndex;
+                        bool isValidFromIndex = int.TryParse(fromInput, out fromIndex) && fromIndex >= 1 && fromIndex <= docs.Count;
 
                         Console.Write("Enter New Position: ");
-                        int toIndex = int.Parse(Console.ReadLine()) - 1;
+                        string toInput = Console.ReadLine();
+                        int toIndex;
+                        bool isValidToIndex = int.TryParse(toInput, out toIndex) && toIndex >= 1 && toIndex <= docs.Count;
 
-                        
-
-                        //validate list order
-                        if (fromIndex >= 0 && fromIndex < docs.Count && toIndex >= 0 && toIndex < docs.Count)
+                        //handle invalid input
+                        if (!isValidFromIndex || !isValidToIndex)
                         {
-                            if(fromIndex != toIndex)//as long as they're not changing it to the same index
+                            Console.WriteLine("Invalid input. Please enter valid positions between 1 and " + docs.Count);
+                        }
+                        else
+                        {
+                            //convert to zero-based index
+                            fromIndex--;
+                            toIndex--;
+
+                            //check if the indexes are different
+                            if (fromIndex != toIndex)
                             {
                                 var doc = docs[fromIndex];
                                 docs.RemoveAt(fromIndex);
                                 docs.Insert(toIndex, doc);
 
-                                //clear and fill the queue with new doc ofder
+                                //clear and refill the queue with the new order that the user asked for
                                 printQueue.Clear();
                                 foreach (var d in docs)
                                 {
@@ -232,17 +241,11 @@ class Program
                                 }
                                 Console.WriteLine("Queue updated!");
                             }
-                            else//if they're changing to the same index, skip the extra steps
+                            else
                             {
-                                Console.WriteLine("Your document is already in the right position! No changs needed.");
+                                Console.WriteLine("Your document is already in the correct position.");
                             }
                         }
-                        else
-                        {
-                            Console.WriteLine("Invalid Positions Entered...");
-
-                        }
-
                     }
                     else
                     {
@@ -260,8 +263,6 @@ class Program
                     //handle invalid inputs
                     Console.WriteLine("Invalid Input...Try Again...");
                     break;
-
-
             }
         }
     }
