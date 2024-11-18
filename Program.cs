@@ -211,20 +211,29 @@ class Program
                         Console.Write("Enter New Position: ");
                         int toIndex = int.Parse(Console.ReadLine()) - 1;
 
+                        
+
                         //validate list order
                         if (fromIndex >= 0 && fromIndex < docs.Count && toIndex >= 0 && toIndex < docs.Count)
                         {
-                            var doc = docs[fromIndex];
-                            docs.RemoveAt(fromIndex);
-                            docs.Insert(toIndex, doc);
-
-                            //clear and fill the queue with new doc ofder
-                            printQueue.Clear();
-                            foreach (var d in docs)
+                            if(fromIndex != toIndex)//as long as they're not changing it to the same index
                             {
-                                printQueue.Enqueue(d);
+                                var doc = docs[fromIndex];
+                                docs.RemoveAt(fromIndex);
+                                docs.Insert(toIndex, doc);
+
+                                //clear and fill the queue with new doc ofder
+                                printQueue.Clear();
+                                foreach (var d in docs)
+                                {
+                                    printQueue.Enqueue(d);
+                                }
+                                Console.WriteLine("Queue updated!");
                             }
-                            Console.WriteLine("Queue updated!");
+                            else//if they're changing to the same index, skip the extra steps
+                            {
+                                Console.WriteLine("Your document is already in the right position! No changs needed.");
+                            }
                         }
                         else
                         {
